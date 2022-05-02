@@ -5,6 +5,8 @@
 import getopt
 import sys
 import sqlite3
+import datetime
+from datetime import timedelta
 
 household_ledger_name = "2022_household_ledger"
 usage_string = '''Usage: household-ledger-input.py [command] [value]
@@ -18,6 +20,7 @@ usage_string = '''Usage: household-ledger-input.py [command] [value]
     -f --file : input file to db
     -t --text : input text to db
     -p --print : print data of db
+    -w --week : print about last one week data of db
     -m --month : print about some month data of db
 
   Documentation:
@@ -95,14 +98,40 @@ class BookKeeper:
         print_list = self.cur.fetchall()
         self.print_by_format(print_list)
 
+    def get_last_7days(self):
+        date_list = []
+        cnt = 0
+
+        today = datetime.datetime.now()
+        day = timedelta(days=1)
+
+        for i in range(7):
+            date_list.append(f"{str(today.year).zfill(4)}-{str(today.month).zfill(2)}-{str(today.day).zfill(2)}")
+            today -= day
+
+        return date_list
+
+    def print_week_db(self):
+        date_list = self.get_last_7days()
+        print_list = []
+
+        for date in date_list:
+            self.cur.execute("SELECT * FROM '%s' WHERE date='%s'" % (self.table_name, date))
+            result_list = self.cur.fetchall()
+
+            if result_list:
+                print_list += result_list
+
+        self.print_by_format(print_list)
+
 def print_usage_and_exit():
     print(usage_string)
     sys.exit(2)
 
 if __name__ == "__main__":
     try:
-        short_flags = 'hf:t:pm:'
-        long_flags = ['help', 'file=', 'text=', 'print', 'month=']
+        short_flags = 'hf:t:pm:w'
+        long_flags = ['help', 'file=', 'text=', 'print', 'month=', 'week=']
 
         opts, args = getopt.gnu_getopt(sys.argv[1:], short_flags, long_flags)
     except getopt.GetoptError:
@@ -120,3 +149,5 @@ if __name__ == "__main__":
                 book_keeper.print_db()
             if o in ('-m', '--month'):
                 book_keeper.print_month_db(a)
+            if o in ('-w', '--week'):
+                book_keeper.print_week_db()
