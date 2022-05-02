@@ -43,7 +43,7 @@ DB에 있는 data를 확인 하는 기능도 제공 합니다.
 python household-ledger-input.py -w
 ```
 ## Print about some month data of db
-특정 월의 결과를 확인 할 수 있습니다. 저희 집은 결산일이 매달 10일 이기 때문에 정확히는 이전달 10 부터 이번달 9일 까지의 데이터를 확인 합니다.
+특정 월의 결과를 확인 할 수 있습니다. 저희 집은 결산일이 매달 10일 이기 때문에 정확히는 이전달 10 부터 이번달 9일 까지의 데이터를 확인 합니다. 아래의 예제는 4월의 결과를 출력한 것입니다.
 ```
 python household-ledger-input.py -m 4
 ```
@@ -55,7 +55,7 @@ Calculate script는 household-ledger-calculate.py 입니다. 가계부의 계산
 ./household-ledger-calculate.py -w
 ```
 ## Get result of month
-한달 간의 결과를 봅니다.
+4월 한달 간의 결과를 봅니다.
 ```
 ./household-ledger-calculate.py -m 4
 ```
