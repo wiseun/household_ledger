@@ -1,5 +1,5 @@
 # What is household_ledger
-household_ledger는 집에게 가계부를 쓰게 편하게 하기 위해 작성한 script 입니다.
+household_ledger는 집에게 가계부를 쓰기 편하게 하기 위해 작성한 script 입니다.
 
 # Description of household_ledger
 저희 집은 자산 카테고리가 총 4가지 입니다.
