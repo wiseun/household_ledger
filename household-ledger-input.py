@@ -2,6 +2,7 @@
 
 # household-ledger-input.py
 
+import os
 import getopt
 import sys
 import sqlite3
@@ -33,6 +34,15 @@ class BookKeeper:
         self.table_name = household_ledger_name
 
     def __enter__(self):
+        db_directory = "./db"
+
+        try:
+            if not os.path.exists(db_directory):
+                os.makedirs(db_directory)
+        except OSError:
+            print (f"Error: Creating directory. {db_directory}")
+            sys.exit(2)
+
         self.db = sqlite3.connect("./db/account_book.db")
         self.cur = self.db.cursor()
 
